@@ -58,7 +58,7 @@ def _fallback_analysis(lead: Lead) -> LeadAnalysis:
 
 
 def _gemini_analysis(lead: Lead, api_key: str) -> LeadAnalysis:
-    model = os.getenv("GEMINI_MODEL", "gemini-3.7-flash")
+    model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
     prompt = (
         "Qualify this inbound lead for a software/automation agency. "
         "Return a JSON object with exactly these fields: company (string), "
