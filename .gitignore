@@ -6,3 +6,7 @@ venv/
 .idea/
 .vscode/
 .DS_Store
+
+# Local lead database
+*.db
+*.db-journal
