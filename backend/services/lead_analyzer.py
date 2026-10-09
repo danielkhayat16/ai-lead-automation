@@ -1,9 +1,13 @@
 import json
 import os
+import logging
 import re
 from urllib import error, request
 
 from models import Lead, LeadAnalysis
+
+
+logger = logging.getLogger(__name__)
 
 
 AUTOMATION_WORDS = {
@@ -82,7 +86,7 @@ def _gemini_analysis(lead: Lead, api_key: str) -> LeadAnalysis:
         body = json.loads(response.read())
     output = body["candidates"][0]["content"]["parts"][0]["text"]
     result = LeadAnalysis.model_validate_json(output)
-    return result.model_copy(update={"company": lead.company})
+    return result.model_copy(update={"company": lead.company, "analysis_source": "GEMINI"})
 
 
 def analyze_lead(lead: Lead) -> LeadAnalysis:
@@ -91,5 +95,6 @@ def analyze_lead(lead: Lead) -> LeadAnalysis:
         return _fallback_analysis(lead)
     try:
         return _gemini_analysis(lead, api_key)
-    except (error.URLError, TimeoutError, KeyError, IndexError, ValueError):
+    except (error.URLError, TimeoutError, KeyError, IndexError, ValueError) as exc:
+        logger.warning("Gemini analysis failed; using local fallback: %s", exc)
         return _fallback_analysis(lead)
