@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Lead Automation — Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <section class="intro">
+    <p class="eyebrow">PORTFOLIO DEMO</p>
+    <h1>Turn an inbound lead into <span>structured sales data.</span></h1>
+    <p>Submit a business request. The API validates it, analyzes intent and budget, assigns priority and recommends a next action.</p>
+  </section>
+
+  <section class="grid">
+    <form id="lead-form" class="card">
+      <h2>Incoming lead</h2>
+      <label>Company<input name="company" value="Dupont Consulting" required></label>
+      <label>Contact name<input name="contact_name" value="Marie Dupont" required></label>
+      <label>Email<input name="email" type="email" value="contact@dupont.fr" required></label>
+      <label>Employees<input name="employees" type="number" value="15" min="1"></label>
+      <label>Request<textarea name="message" rows="6" required>Nous cherchons à automatiser le traitement de nos factures. Budget environ 5 000 €.</textarea></label>
+      <button type="submit">Analyze lead →</button>
+      <p class="hint">API endpoint can be configured in <code>app.js</code>.</p>
+    </form>
+
+    <div class="card result">
+      <div class="result-head"><h2>Analysis</h2><span id="state">READY</span></div>
+      <div id="empty">Submit the sample lead to see the structured result.</div>
+      <div id="output" hidden>
+        <div class="metric"><small>PRIORITY</small><strong id="priority"></strong></div>
+        <dl>
+          <div><dt>Category</dt><dd id="category"></dd></div>
+          <div><dt>Budget</dt><dd id="budget"></dd></div>
+          <div><dt>Need</dt><dd id="need"></dd></div>
+        </dl>
+        <h3>Summary</h3><p id="summary"></p>
+        <h3>Suggested action</h3><p id="action"></p>
+      </div>
+      <p id="error" class="error" hidden></p>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
