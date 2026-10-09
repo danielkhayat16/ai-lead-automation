@@ -19,3 +19,4 @@ class LeadAnalysis(BaseModel):
     need: str
     summary: str
     suggested_action: str
+    analysis_source: Literal["GEMINI", "LOCAL_FALLBACK"] = "LOCAL_FALLBACK"
