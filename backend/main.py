@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from models import Lead, LeadAnalysis
+from lead_store import list_leads, save_lead, send_to_n8n
 from services.lead_analyzer import analyze_lead
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +34,15 @@ def health() -> dict[str, str]:
 
 @app.post("/analyze", response_model=LeadAnalysis)
 def analyze(lead: Lead) -> LeadAnalysis:
-    return analyze_lead(lead)
+    analysis = analyze_lead(lead)
+    lead_id = save_lead(lead, analysis)
+    send_to_n8n(lead_id, lead, analysis)
+    return analysis
+
+
+@app.get("/leads")
+def leads() -> list[dict]:
+    return list_leads()
 
 
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
