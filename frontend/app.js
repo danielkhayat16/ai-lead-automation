@@ -24,6 +24,7 @@ form.addEventListener("submit", async (event) => {
     if (!response.ok) throw new Error(`API returned ${response.status}`);
 
     const result = await response.json();
+    document.querySelector("#analysis-source").textContent = result.analysis_source;
     document.querySelector("#priority").textContent = result.priority;
     document.querySelector("#category").textContent = result.category;
     document.querySelector("#budget").textContent =
